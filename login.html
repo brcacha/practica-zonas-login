@@ -1,0 +1,37 @@
+<html>
+<body>
+<form>
+Usuario <input id="user">
+<br>
+Contraseña <input type=password id="password">
+<br>
+<input type=button value="Acceder" onClick="acceder()">
+</form>
+<script>
+
+function acceder()
+{
+    // cogemos los datos del formulario
+    let user = document.getElementById('user').value
+    let password = document.getElementById('password').value
+    // hacemos la petición al API
+    fetch('/login?user=' + user + '&password=' + password,{
+      credentials: 'same-origin'
+    })
+        .then((respuesta) => {
+
+                // procesamos el JSON
+                respuesta.json().then((datos) => {
+                  console.log(datos)
+                    // colocamos las cookies
+                    document.cookie = 'user=' + user
+                    document.cookie = 'password=' + password
+                    // cargamos una nueva página
+                    location.href = "http://localhost:3000/zona/marjal"
+                })
+        })
+}
+
+</script>
+</body>
+</html>
