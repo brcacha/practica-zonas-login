@@ -47,12 +47,7 @@ servidorExpress.use ( bodyParser.text({ type: 'text/json'}) )
 // servidorExpress.use ( _ ) pone un "hook"
 // para usar sesiones
 // .......................................................
-servidorExpress.use(express.static(__dirname + '/'));
 
-// SIGN IN
-servidorExpress.get('/signin', [
-    (peticion, respuesta) => respuesta.sendFile(__dirname + '/login.html')
-])
 
 servidorExpress.use ( expressSession(
 	{
@@ -99,6 +94,22 @@ function peticionEsGetLogin (req) {
 		return false
 	}
 
+	return true
+} // ()
+
+// .......................................................
+//
+// req: PeticionHTTP
+// -->
+//    f()
+// -->
+// V/F
+//
+// .......................................................
+function peticionEsGetSignIn (req) {
+ 	if (req.path != "/signin") {
+		return false
+	}
 	return true
 } // ()
 
@@ -227,6 +238,15 @@ servidorExpress.use (function(req, res, next) {
 	//
 	if ( peticionEsGetLogin (req) ) {
 		console.log (" * es login ")
+		next () // la peticion continua
+		return
+	}
+
+  //
+	// si la petición es de html, la dejo pasar
+	//
+	if ( peticionEsGetSignIn (req) ) {
+		console.log (" * es sign in ")
 		next () // la peticion continua
 		return
 	}

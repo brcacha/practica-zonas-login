@@ -4,6 +4,8 @@
 //
 // ------------------------------------------------------
 // .......................................................
+const express = require( 'express' )
+
 //
 // user: Texto
 // password: Texto
@@ -64,6 +66,14 @@ module.exports.cargar = function( servidorExpress, laLogica ) {
 	//
 	// .......................................................
 	// .......................................................
+
+	servidorExpress.use(express.static(__dirname + '/'));
+
+	// SIGN IN
+	servidorExpress.get('/signin', [
+	    (peticion, respuesta) => respuesta.sendFile(__dirname + '/login.html')
+	])
+
 	servidorExpress.get('/login', function(req, response){
 
 		console.log( "\n --------------------------------------- ")
